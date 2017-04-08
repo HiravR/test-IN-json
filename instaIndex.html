@@ -1,0 +1,52 @@
+</!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Instagram Api using Json and JavaScript - Hirav Raval</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  crossorigin="anonymous">
+		<style type="text/css">
+			.hrphotos{
+				list-style: none;
+				
+			}
+			.hrimg{
+				padding:5px;
+			}
+		</style>
+	</head>
+<body>
+	<div class="row">		
+	</div>
+	<ul class="hrphotos row">
+	</ul>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript">
+			
+		(function() {
+				var apiToken = ''; // Add your API token Here
+				var userid ='';  //Add user ID here.
+				var num_photos = 10; //number of photos you want to get
+				$.ajax({
+				url: 'https://api.instagram.com/v1/users/' + userid + '/media/recent', // or /users/self/media/recent for Sandbox
+				dataType: 'jsonp',
+				type: 'GET',
+				data: {access_token: apiToken, count: num_photos},
+				success: function(data){
+			 		console.log(data);
+					for( x in data.data ){
+						$('ul').append('<li><a href="'+data.data[x].link +'" target="_blank"><img  class="hrimg img-responsive col-md-6" src="'+ data.data[x].images.standard_resolution.url +'"></a></li>');
+						 // data.data[x].images.low_resolution.url - URL of image, 306х306
+						// data.data[x].images.thumbnail.url - URL of image 150х150
+						// data.data[x].images.standard_resolution.url - URL of image 612х612
+						// data.data[x].link - Instagram post URL 
+					}
+				},
+				error: function(err){
+					console.log(err); // send the error notifications to console
+				}
+			});
+		})();
+	</script>
+</body>
+</html>
